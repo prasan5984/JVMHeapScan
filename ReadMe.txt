@@ -1,6 +1,14 @@
 ****************
-JVM HEAP SCANNER -- (Currently this agent is a Work in Progress)
+JVM HEAP SCANNER 
 ****************
+A JVM agent written in 'C' to track the instance count of Java Types in Heap. It interacts with the JVM using JVM Tool Instrumentation (JVM TI) interface.
+
+On JVM Start, `java.lang.Object` is instrumented to call a tracker method in ObjectAllocationTracker. For count of newly intialized instances, the tracker method updates the cout maintained in backend agent through a JNI call. During GC, JVM TI uses call back function to reduce the instance count.
+
+The instance count of the types are logged and also can be accessed through a configured TCP socket.
+
+Additionally, through the socket commands can be passed to trigger a GC or follow the reference of currently active objects. This will be required when the agent connects to an existing JVM.
+
 
 1. Generate a dll file using the source. Currently the agent only works in windows.
 
